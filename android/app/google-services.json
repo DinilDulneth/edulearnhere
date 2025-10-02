@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "259089750191",
+    "project_id": "elearningapp-f5123",
+    "storage_bucket": "elearningapp-f5123.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259089750191:android:da5f25571451bf25195c5a",
+        "android_client_info": {
+          "package_name": "com.AquaCore.e_learning_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyHu_zu7tXFmzxJQzKLsqYp9-3gwA5N5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

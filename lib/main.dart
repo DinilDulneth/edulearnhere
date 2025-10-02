@@ -1,29 +1,99 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-void main() => runApp(const EduApp());
+// Import your pages
+import 'pages/home_page.dart';
+import 'pages/courses_page.dart';
+import 'pages/profile_page.dart';
+import 'screens/login_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(const EduApp());
+}
 
 class EduApp extends StatelessWidget {
   const EduApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'EduLearn',
+      debugShowCheckedModeBanner: false,
+      title: 'LearnHere',
       theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.blue),
-      home: const MainNav(),
+      home: const SplashScreen(),
     );
   }
 }
 
+// ================= Splash Screen =================
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(const Duration(seconds: 3), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => LoginScreen()),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.blue,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(Icons.school, size: 100, color: Colors.white),
+            SizedBox(height: 20),
+            Text(
+              "Welcome to LearnHere",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ================= Main Navigation =================
 class MainNav extends StatefulWidget {
   const MainNav({super.key});
+
   @override
   State<MainNav> createState() => _MainNavState();
 }
 
 class _MainNavState extends State<MainNav> {
   int _index = 0;
-  final _pages = const [HomeScreen(), CoursesScreen(), ProfileScreen()];
-  final _titles = const ['Home', 'Courses', 'Profile'];
+
+  // Main tab pages
+  final _pages = [
+    HomeScreen(),
+    CoursesPage(courseName: 'Maths'), // Example course
+    ProfilePage(),
+  ];
+
+  final _titles = ['Home', 'Courses', 'Profile'];
 
   @override
   Widget build(BuildContext context) {
@@ -48,63 +118,6 @@ class _MainNavState extends State<MainNav> {
             icon: Icon(Icons.person_outline),
             selectedIcon: Icon(Icons.person),
             label: 'Profile',
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Welcome to LearnHere 🎓',
-        style: Theme.of(context).textTheme.headlineSmall,
-      ),
-    );
-  }
-}
-
-class CoursesScreen extends StatelessWidget {
-  const CoursesScreen({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: 6,
-      itemBuilder: (c, i) => Card(
-        child: ListTile(
-          leading: const Icon(Icons.play_circle),
-          title: Text('Course ${i + 1}'),
-          subtitle: const Text('Tap to open'),
-          onTap: () => ScaffoldMessenger.of(
-            c,
-          ).showSnackBar(SnackBar(content: Text('Open Course ${i + 1}'))),
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text('Name: Guest', style: TextStyle(fontSize: 18)),
-          const SizedBox(height: 12),
-          ElevatedButton(
-            onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Sign-in coming soon…')),
-            ),
-            child: const Text('Sign in'),
           ),
         ],
       ),
